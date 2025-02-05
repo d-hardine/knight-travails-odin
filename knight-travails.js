@@ -41,20 +41,20 @@ for(let i = 0; i <= board.length - 1; i++) {
         moves[i].push([firstPosibility, secondPosibility])
     if(thirdPosibility <= 7 && fourthPosibility <= 7) //second L
         moves[i].push([thirdPosibility, fourthPosibility]);
-    if(firstPosibilityInversed >= 0 && secondPosibilityInversed >= 0 && firstPosibilityInversed <= 7 && secondPosibilityInversed <= 7) //first L inversed
+    if(firstPosibilityInversed >= 0 && secondPosibilityInversed >= 0) //first L inversed
         moves[i].push([firstPosibilityInversed, secondPosibilityInversed]);
-    if(thirdPosibilityInversed >= 0 && fourthPosibilityInversed >= 0 && thirdPosibilityInversed <= 7 && fourthPosibilityInversed <= 7) //second L inversed
+    if(thirdPosibilityInversed >= 0 && fourthPosibilityInversed >= 0) //second L inversed
         moves[i].push([thirdPosibilityInversed, fourthPosibilityInversed]);
     if(fifthPosibility <= 7 && sixthPosibility <= 7 && fifthPosibility >= 0 && sixthPosibility >= 0) //third L
         moves[i].push([fifthPosibility, sixthPosibility])
-    if(seventhPosibility <= 7 && sixthPosibility <= 7 && seventhPosibility >= 0 && eighthPosibility >= 0) //fourth L
+    if(seventhPosibility <= 7 && eighthPosibility <= 7 && seventhPosibility >= 0 && eighthPosibility >= 0) //fourth L
         moves[i].push([seventhPosibility, eighthPosibility])
     if(fifthPosibilityInversed <= 7 && sixthPosibilityInversed <= 7 && fifthPosibilityInversed >= 0 && sixthPosibilityInversed >= 0) //third L inversed
         moves[i].push([fifthPosibilityInversed, sixthPosibilityInversed])
     if(seventhPosibilityInversed <= 7 && eighthPosibilityInversed <= 7 && seventhPosibilityInversed >= 0 && eighthPosibilityInversed >= 0) //fourth L inversed
         moves[i].push([seventhPosibilityInversed, eighthPosibilityInversed])
 };
-console.log(moves)
+//console.log(moves)
 
 //the graph
 const adjacencyList = new Map();
@@ -97,4 +97,4 @@ function addEdge(knightNode, knightMoves1, knightMoves2, knightMoves3, knightMov
 for(let i = 0; i < moves.length; i++) {
     addEdge(moves[i][0], moves[i][1], moves[i][2], moves[i][3], moves[i][4], moves[i][5], moves[i][6], moves[i][7], moves[i][8])
 }
-//console.log(adjacencyList)
+console.log(adjacencyList)
