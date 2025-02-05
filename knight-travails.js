@@ -5,7 +5,6 @@ for(let i = 0; i <= 7; i++) {
         board.push([i,j]);
     }
 };
-//console.log(board);
 
 //all knight moves
 let moves = [];
@@ -64,7 +63,6 @@ function addNode(board) {
     adjacencyList.set(board, [])
 }
 board.forEach(addNode)
-//console.log(adjacencyList)
 
 //add edges, no direction
 function addEdge(knightNode, knightMoves1, knightMoves2, knightMoves3, knightMoves4, knightMoves5, knightMoves6, knightMoves7, knightMoves8) {
@@ -97,4 +95,26 @@ function addEdge(knightNode, knightMoves1, knightMoves2, knightMoves3, knightMov
 for(let i = 0; i < moves.length; i++) {
     addEdge(moves[i][0], moves[i][1], moves[i][2], moves[i][3], moves[i][4], moves[i][5], moves[i][6], moves[i][7], moves[i][8])
 }
-console.log(adjacencyList)
+//console.log(adjacencyList)
+
+
+//Hashing the board
+function indexOfCustom (parentArray, searchElement) { //JS can't compare between object, this is the hack
+    for ( let i = 0; i < parentArray.length; i++ ) {
+        if ( parentArray[i][0] == searchElement[0] && parentArray[i][1] == searchElement[1] ) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+import { HashMap } from "./hashmap.js";
+
+let hashedBoard = new HashMap();
+for(let i=0; i < board.length; i++) {
+    //console.log(board[i].toString(), indexOfCustom(board, board[i]))
+    hashedBoard.set(board[i].toString(), indexOfCustom(board, board[i]))
+}
+//hashedBoard.print()
+//console.log(hashedBoard.keys())
+hashedBoard.get('6,3')
