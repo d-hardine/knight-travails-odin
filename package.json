@@ -1,0 +1,21 @@
+{
+  "name": "knight-travails-odin",
+  "version": "1.0.0",
+  "description": "Knight Travails Project for Odin",
+  "main": "knight-travails.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/d-hardine/knight-travails-odin.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/d-hardine/knight-travails-odin/issues"
+  },
+  "homepage": "https://github.com/d-hardine/knight-travails-odin#readme",
+  "type":"module"
+}
