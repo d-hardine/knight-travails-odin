@@ -99,6 +99,8 @@ for(let i = 0; i < moves.length; i++) {
 
 
 //Hashing the board
+import { HashMap } from "./hashmap.js";
+
 function indexOfCustom (parentArray, searchElement) { //JS can't compare between object, this is the hack
     for ( let i = 0; i < parentArray.length; i++ ) {
         if ( parentArray[i][0] == searchElement[0] && parentArray[i][1] == searchElement[1] ) {
@@ -108,13 +110,97 @@ function indexOfCustom (parentArray, searchElement) { //JS can't compare between
     return -1;
 }
 
-import { HashMap } from "./hashmap.js";
-
 let hashedBoard = new HashMap();
+
 for(let i=0; i < board.length; i++) {
     //console.log(board[i].toString(), indexOfCustom(board, board[i]))
     hashedBoard.set(board[i].toString(), indexOfCustom(board, board[i]))
 }
 //hashedBoard.print()
-//console.log(hashedBoard.keys())
-hashedBoard.get('6,3')
+//console.log(hashedBoard.get('2,3'))
+//console.log(board[hashedBoard.get('5,2')])
+//console.log(adjacencyList.get(board[hashedBoard.get('0,0')]))
+
+
+//depth first search, this is not the solution
+function dfs(start, end, visited = new Set()) {
+    start = board[hashedBoard.get(start.toString())]
+    end = board[hashedBoard.get(end.toString())]
+    visited.add(`${start.toString()}`);
+    let destinations = adjacencyList.get(start);
+    for(let i = 0; i < destinations.length; i++) {
+        if(destinations[i][0] === end[0] && destinations[i][1] === end[1]) {
+            console.log(destinations[i], `found the ${end}`);
+            return;
+        }
+
+        if(!visited.has(`${destinations[i].toString()}`)) {
+            console.log(destinations[i])
+            dfs(destinations[i], end, visited)
+        }
+    }
+}
+
+//breadth first search, this is the real solution.
+// All alhorithm console logs has been disabled. Feel free to enable them for more algorithm explanation
+function knightmoves(start, end, connection = [], costs = []) {
+    start = board[hashedBoard.get(start.toString())]
+    end = board[hashedBoard.get(end.toString())]
+    const queue = [[null, start]];
+    const visited = new Set();
+    visited.add(`${start.toString()}`)
+
+    while(queue.length > 0) {
+        //console.log('the queue: ', queue); //this is important
+        const proccessing = queue.shift();
+        //console.log('proccessing: ', proccessing[1]);
+        const edges = adjacencyList.get(board[hashedBoard.get(proccessing[1].toString())]);
+        //console.log('edges of the proccessed vertex: ', edges)
+        for(let i = 0; i < edges.length; i++) {
+            if(edges[i][0] === end[0] && edges[i][1] === end[1]) {
+                if(proccessing[0] === null) {
+                    //console.log(`BFS found ${end}`);
+                    let results = [start, end]
+                    console.log(`You made it in ${results.length -  1} move(s)! Here's your path:`)
+                    for(let i = 0; i < results.length; i++)
+                        console.log(results[i]);
+                    return results
+                }
+                //console.log(`BFS found ${end}`);
+                connection[hashedBoard.get(edges[i].toString())] = proccessing[1];
+                //console.log('the vertex before ' + proccessing[1] + ' is ' + proccessing[0] +  " so it's connection cost is " + costs[connection.indexOf(proccessing[0])] + " + 1")
+                costs[hashedBoard.get(edges[i].toString())] = costs[connection.indexOf(proccessing[0])] + 1
+                
+                //now return the shortest path
+                let results = [];
+                let lastNode = edges[i];
+                while(lastNode) {
+                    results.push(lastNode);
+                    //console.log(lastNode, hashedBoard.get(lastNode.toString()))
+                    lastNode = connection[hashedBoard.get(lastNode.toString())];
+                }
+                results.reverse();
+                console.log(`You made it in ${results.length -  1} move(s)! Here's your path:`)
+                for(let i = 0; i < results.length; i++)
+                    console.log(results[i]);
+                return results
+            }
+            if(!visited.has(`${edges[i].toString()}`)) {
+                visited.add(`${edges[i].toString()}`);
+                queue.push([proccessing[1], edges[i]]);
+                //console.log(edges[i], ' pushed to queue');
+                connection[hashedBoard.get(edges[i].toString())] = proccessing[1];
+                //console.log(`${edges[i]} is pushed to ${proccessing[1]} inside path arrays`);
+                if(proccessing[1] === start) {
+                    costs[hashedBoard.get(edges[i].toString())] = 1;
+                }else {
+                    //console.log('JANCOOOOK', proccessing[0].toString(), connection.indexOf(proccessing[0]))
+                    //console.log('the vertex before ' + proccessing[1] + ' is ' + proccessing[0] +  " so it's connection cost is " + costs[connection.indexOf(proccessing[0])] + " + 1")
+                    costs[hashedBoard.get(edges[i].toString())] = costs[connection.indexOf(proccessing[0])] + 1
+                }
+            }
+        }
+    }
+}
+
+knightmoves([0,0],[1,2])
