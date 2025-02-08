@@ -63,7 +63,6 @@ export class HashMap {
         else {
             for (let i = 0; i < this.buckets[index].length; i++) {
                 if(this.buckets[index][i][0] === key) {
-                    console.log(this.buckets[index][i][1])
                     return this.buckets[index][i][1]
                 }
             }
